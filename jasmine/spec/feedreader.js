@@ -29,10 +29,9 @@ $(function() {
          * and that the URL is not empty.
          */
          it('Feeds has url', function(){
-            var arraylength = allFeeds.length;
-            for(var i = 0; i < arraylength; i++) {
+            for(var i = 0, len = allFeeds.length; i < len; i++) {
                 expect(allFeeds[i].url).toBeDefined();
-                expect(allFeeds[i].url).not.toEqual({});
+                expect(allFeeds[i].url).toBeTruthy();
             }    
          });
 
@@ -44,7 +43,7 @@ $(function() {
             var arraylength = allFeeds.length;
             for(var i = 0; i < arraylength; i++) {
                 expect(allFeeds[i].name).toBeDefined();
-                expect(allFeeds[i].name).not.toEqual({});
+                expect(allFeeds[i].name).toBeTruthy();
             }    
          });
     });
@@ -57,14 +56,14 @@ $(function() {
     describe('Menu', function(){
 
         /* this test ensures the menu element is hidden by default. */
-        it('menu slide is hidden by default', function(){
+        it('Menu slide is hidden by default', function(){
             expect($('body').hasClass('menu-hidden')).toBe(true);
         });
 
         /* this test that ensures the menu will display and hidden when
          * clicked the hamburger icon
          */
-        describe('icon', function () {
+        describe('Click menu icon', function () {
             /* Triggers the on click function before that has been created in
              * app.js before each test.
              */
@@ -75,14 +74,14 @@ $(function() {
             /* Checks that the menu displays when the hamburger icon is
              * clicked on and the menu was hidden.
              */
-            it('is clicked and displays', function () {
+            it('Menu displays when click the hamburger icon', function () {
                 expect($('body').hasClass('menu-hidden')).toBe(false);
             });
 
             /* Checks that the menu hides when the hamburger icon is
              * clicked on and the menu was displayed.
              */
-            it('is clicked and hides', function () {
+            it('Menu hides when click the hamgurger icon again', function () {
                 expect($('body').hasClass('menu-hidden')).toBe(true);
             });
         });
@@ -101,7 +100,7 @@ $(function() {
         })
 
         /* this test ensures the feeds being loaded has one or more entries */
-        it('has a entry element in the feed container', function(){
+        it('Feed has at least one  entry element', function(){
             expect($('.feed .entry').length).toBeGreaterThan(0);
         });
     
@@ -129,9 +128,10 @@ $(function() {
          * and compares the html in the feed <div>. 
          * The test pass if they are different
          */
-        it('has changed content', function(done) {
+        it('New selection has changed content', function(done) {
             loadFeed(0, function(){
                 expect($('.feed')).not.toEqual(feedContent);
+                done();
             });
         });
     });   
