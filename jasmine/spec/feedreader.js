@@ -25,27 +25,30 @@ $(function() {
             expect(allFeeds.length).not.toBe(0);
         });
 
-        /* this test ensures in allFeeds has a URL defined
-         * and that the URL is not empty.
-         */
-         it('Feeds has url', function(){
-            for(var i = 0, len = allFeeds.length; i < len; i++) {
-                expect(allFeeds[i].url).toBeDefined();
-                expect(allFeeds[i].url).toBeTruthy();
-            }    
-         });
+        function testEachFeedInallFeeds(input) {
+            var regularExpressionUrl = /^(?:([A-Za-z]+):)?(\/{0,3})([0-9.\-A-Za-z]+)(?::(\d+))?(?:\/([^?#]*))?(?:\?([^#]*))?(?:#(.*))?$/;
+            /* this test ensures in allFeeds has a URL 
+             * defined and that the URL is not empty. 
+             */
+            it(('Feeds ' + (input+1) + ' has url'), function() {
+                expect(allFeeds[input].url).toBeDefined();
+                expect(allFeeds[input].url).toMatch(regularExpressionUrl);
+                expect(allFeeds[input].url.length).toBeGreaterThan(0);
+            });
 
-        /* this test ensures in the allFeeds object 
-         * and ensures it has a name defined
-         * and that the name is not empty.
-         */
-        it('Feeds has name', function(){
-            var arraylength = allFeeds.length;
-            for(var i = 0; i < arraylength; i++) {
-                expect(allFeeds[i].name).toBeDefined();
-                expect(allFeeds[i].name).toBeTruthy();
-            }    
-         });
+            /* this test ensures in the allFeeds object and ensures 
+             * it has a name defined and that the name is not empty. 
+             */
+            it(('Feeds ' + (input+1) + ' has name'), function() {
+                expect(allFeeds[input].name).toBeDefined();
+                expect(allFeeds[input].name.length).toBeGreaterThan(0);
+            });
+        }
+
+        // Loop to verify each feed in allFeeds
+        for(var feed = 0, len = allFeeds.length; feed < len; feed++) {
+            testEachFeedInallFeeds(feed);
+        }
     });
 
 
@@ -118,7 +121,7 @@ $(function() {
         var feedContent;
 
         beforeEach(function(done) {
-            loadFeed(1, function(){
+            loadFeed(0, function(){
                 feedContent = $('.feed').html();
                 done();
             }); 
@@ -129,8 +132,9 @@ $(function() {
          * The test pass if they are different
          */
         it('New selection has changed content', function(done) {
-            loadFeed(0, function(){
+            loadFeed(1, function(){
                 expect($('.feed')).not.toEqual(feedContent);
+                expect($('.feed')).not.toEqual($('.feed').html());
                 done();
             });
         });
