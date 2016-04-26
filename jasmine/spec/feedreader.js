@@ -119,24 +119,22 @@ $(function() {
          * in the variable feedContent.
          */
         var feedContent;
-
         beforeEach(function(done) {
             loadFeed(0, function(){
                 feedContent = $('.feed').html();
                 done();
             }); 
         });
-
         /* this test loads a different feed from the startup,
          * and compares the html in the feed <div>. 
          * The test pass if they are different
          */
         it('New selection has changed content', function(done) {
             loadFeed(1, function(){
-                expect($('.feed')).not.toEqual(feedContent);
-                expect($('.feed')).not.toEqual($('.feed').html());
+                expect($('.feed').html()).not.toEqual(feedContent);
                 done();
             });
+        //console.log(feedContent);
         });
     });   
 }());
